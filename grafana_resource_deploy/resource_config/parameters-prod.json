@@ -1,0 +1,52 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "webAppName": {
+            "value": "grafana-prod"
+        },
+        "appServicePlanName":{
+            "value": "ASPgrafana-prod"
+        },
+        "storageAccountName":{
+            "value": "grafanastorageprod"
+        },
+        "shareName":{
+            "value": "grafana-prod-storage-fileshare"
+        },
+        "dockerServerUrl": {
+            "value": "https://index.docker.io"
+        },
+        "dockerServerUsername": {
+            "value": ""
+        },
+        "dockerServerPassword": {
+            "value": ""
+        },
+        "linuxFxVersion": {
+            "value": "DOCKER|grafana/grafana"
+        },
+        "configMountPath": {
+            "value": "/etc/grafana"
+        },
+        "dbMountPath": {
+            "value": "/var/lib/grafana"
+        },
+        "dbFileUrl":{
+            "value": "sqlite3:///var/lib/grafana/grafana.db?cache=private&mode=rwc&_journal_mode=WAL"
+        },
+        "websiteEnableAppStoragePath":{
+            "value": "false"
+        },
+        "netFrameworkVersion":{
+            "value": "v4.0"
+        },
+        "virtualPath":{
+            "value": "/"
+        },
+        "physicalPath":{
+            "value": "site\\wwwroot"
+        }
+        
+    }
+}

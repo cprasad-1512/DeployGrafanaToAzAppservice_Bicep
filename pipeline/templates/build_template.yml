@@ -1,0 +1,16 @@
+jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:     
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: "grafana_resource_deploy"
+          Contents: "**"
+          TargetFolder: $(Build.ArtifactStagingDirectory)
+      - task: PublishBuildArtifacts@1
+        inputs:
+          PathtoPublish: $(Build.ArtifactStagingDirectory)
+          ArtifactName: "drop"
+          publishLocation: "Container"

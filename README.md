@@ -1,2 +1,2 @@
-# DeployGrafanaToAzAppservice_Bicep
-Deploy Grafana To Azure App Service using Bicep
+# Deploy Grafana To Azure Apps Service using Bicep
+

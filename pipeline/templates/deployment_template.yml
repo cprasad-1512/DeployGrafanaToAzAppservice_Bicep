@@ -1,0 +1,25 @@
+parameters:
+  - name: environment
+    type: string
+  - name: azureSubscription
+    type: string
+  - name: resourceGroup
+    type: string
+
+jobs:
+  - job: grafana_infra
+    displayName: grafana_infra_release
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: AzureCLI@2
+      
+      inputs:
+        azureSubscription: ${{ parameters.azureSubscription }}
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+        
+          az deployment group create --resource-group ${{ parameters.resourceGroup }} -f grafana_resource_deploy/resource_config/main.bicep --parameters grafana_resource_deploy/resource_config/parameters-${{ parameters.environment }}.json 
+
+ 

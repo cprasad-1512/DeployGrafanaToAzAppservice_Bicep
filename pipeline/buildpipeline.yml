@@ -1,0 +1,53 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+    batch: true
+    branches:
+        include:
+        - main
+        - develop
+        - feature/*
+
+variables:
+  vmImageName: 'ubuntu-latest'
+
+stages:
+- stage: CopyingAndPublishingArtifact
+  displayName: Build and Publish
+  jobs:
+  - template: templates/build_template.yml
+
+- stage: DeployToDev
+  displayName: Deploy To Dev
+  dependsOn: CopyingAndPublishingArtifact
+
+  jobs:
+  - template: templates/deployment_template.yml
+    parameters:
+            environment: dev
+            azureSubscription: $(azureSubscription-dev)
+            resourceGroup: $(resourceGroup-dev)
+
+- stage: DeployToTest
+  displayName: Deploy To Test
+  dependsOn: DeployToDev
+  jobs:
+  - template: templates/deployment_template.yml
+    parameters:
+            environment: test
+            azureSubscription: $(azureSubscription-test)
+            resourceGroup: $(resourceGroup-test)
+
+- stage: DeployToProd
+  displayName: Deploy To Prod
+  dependsOn: DeployToTest
+  condition: and(succeeded(), eq(variables.isMain, 'true'))
+  jobs:
+  - template: templates/deployment_template.yml
+    parameters:
+            environment: prod
+            azureSubscription: $(azureSubscription-prod)
+            resourceGroup: $(resourceGroup-prod)
